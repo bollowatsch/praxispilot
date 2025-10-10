@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/themes/theme_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-
-import 'features/auth/presentation/app_entry_point.dart';
+import 'package:flutter_app/config/themes/app_theme.dart';
+import 'package:flutter_app/features/auth/presentation/pages/login_page.dart';
 
 // main.dart
 void main() async {
@@ -20,35 +17,13 @@ class PraxisPilot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        // Global providers
-      ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          return MaterialApp(
-            title: 'Praxis Management System',
-            theme: themeProvider.lightTheme,
-            darkTheme: themeProvider.darkTheme,
-            themeMode: themeProvider.themeMode,
-
-            // WICHTIG: Nutze einen Router für intelligentes Routing
-            home: const AppEntryPoint(),
-
-            // Oder mit GoRouter (empfohlen)
-            // router: appRouter,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('de', 'DE'), // Deutsch (primär)
-              Locale('en', 'US'), // Englisch (sekundär)
-            ],
-          );
-        },
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'PraxisPilot',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      home: const LoginPage(),
     );
   }
 }
