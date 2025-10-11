@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config/themes/app_theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -25,6 +26,8 @@ class PrimaryButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: isFullWidth ? Size(double.infinity, 48) : null,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        backgroundColor: context.colorScheme.primary,
+        foregroundColor: context.colorScheme.onPrimary,
       ),
       child:
           isLoading
