@@ -63,7 +63,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   SizedBox(height: 15),
                   AuthFormField(
                     hintText: 'Password',
-                    icon: Icon(Icons.password_outlined),
+                    icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _passwordController,
                   ),
