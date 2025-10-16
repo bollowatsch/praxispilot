@@ -5,6 +5,7 @@ import 'package:flutter_app/features/auth/presentation/providers/auth_state_prov
 import 'package:flutter_app/features/auth/presentation/widgets/form_validators.dart';
 import 'package:flutter_app/shared/widgets/buttons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/auth_form_field.dart';
 
@@ -35,9 +36,7 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
     _onTapRecognizer =
         TapGestureRecognizer()
           ..onTap = () {
-            print(
-              'Should navigate to /login',
-            ); // TODO goRouter navigate to /login
+            context.goNamed('login');
             return;
           };
     super.initState();

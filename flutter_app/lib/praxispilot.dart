@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/auth/presentation/pages/login_page.dart';
+import 'package:flutter_app/config/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'config/themes/app_theme.dart';
@@ -9,13 +9,13 @@ class PraxisPilot extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'PraxisPilot',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      home: const LoginPage(),
+      routerConfig: appRouter,
     );
   }
 }

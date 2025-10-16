@@ -4,6 +4,7 @@ import 'package:flutter_app/config/themes/app_theme.dart';
 import 'package:flutter_app/features/auth/presentation/providers/auth_state_provider.dart';
 import 'package:flutter_app/shared/widgets/buttons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/auth_form_field.dart';
 
@@ -32,9 +33,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _onTapRecognizer =
         TapGestureRecognizer()
           ..onTap = () {
-            print(
-              'Should navigate to /signup',
-            ); // TODO goRouter navigate to /signup
+            context.goNamed('signup');
             return;
           };
     super.initState();
@@ -47,10 +46,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         .read(authStateProvider.notifier)
         .login(email: _mailController.text, password: _passwordController.text);
 
-    if (success && mounted)
-      print('Login Successful');
-    else
+    if (success && mounted) {
+      context.goNamed('dashboard');
+    } else {
       print('unsuccessful login: success = ${success}');
+    }
   }
 
   @override
