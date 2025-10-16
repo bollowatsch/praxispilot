@@ -1,4 +1,5 @@
 import 'package:flutter_app/core/usecases/usecase.dart';
+import 'package:flutter_app/features/auth/domain/usecases/signup_user.dart';
 import 'package:flutter_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_app/features/auth/presentation/state/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,6 +22,28 @@ class AuthStateNotifier extends _$AuthStateNotifier {
     result.fold(
       (failure) => state = const AuthState(),
       (user) => state = state.copyWith(isLoading: false, currentUser: user),
+    );
+  }
+
+  Future<bool> signup({required String email, required String password}) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    final params = SignUpParams(email: email, password: password);
+    final result = await ref.read(signUpUserProvider)(params);
+
+    return result.fold(
+      (failure) {
+        state = state.copyWith(isLoading: false, errorMessage: failure.message);
+        return false;
+      },
+      (user) {
+        state = state.copyWith(
+          isLoading: false,
+          currentUser: user,
+          errorMessage: null,
+        );
+        return true;
+      },
     );
   }
 

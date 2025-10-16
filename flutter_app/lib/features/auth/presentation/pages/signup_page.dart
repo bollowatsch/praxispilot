@@ -6,36 +6,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/auth_form_field.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<SignUpPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _LoginPageState extends ConsumerState<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _mailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleSignup() async {
     if (!_formKey.currentState!.validate()) return;
 
     final success = await ref
         .read(authStateProvider.notifier)
-        .login(email: _mailController.text, password: _passwordController.text);
+        .signup(
+          email: _mailController.text,
+          password: _passwordController.text,
+        );
 
     if (success && mounted)
-      print('Login Successful');
+      print('SignUp Successful');
     else
-      print('unsuccessful login: success = ${success}');
+      print('unsuccessful signup!');
   }
 
   @override
@@ -67,11 +72,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     isPassword: true,
                     controller: _passwordController,
                   ),
+                  SizedBox(height: 15),
+                  AuthFormField(
+                    hintText: 'Confirm password',
+                    icon: Icon(Icons.lock_outline),
+                    isPassword: true,
+                    controller: _confirmPasswordController,
+                  ),
                   SizedBox(height: 30),
                   PrimaryButton(
                     label: 'Login',
                     icon: Icons.login,
-                    onPressed: _handleLogin,
+                    onPressed: _handleSignup,
                   ),
                 ],
               ),

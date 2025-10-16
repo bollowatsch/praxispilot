@@ -14,7 +14,7 @@ class PraxisPilot extends ConsumerWidget {
       title: 'PraxisPilot',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       home: const LoginPage(),
     );
   }

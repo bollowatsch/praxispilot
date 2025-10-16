@@ -6,6 +6,7 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> signIn({required String email, required String password});
   Future<void> signOut();
   Future<UserModel> getCurrentUser();
+  Future<UserModel> signUp({required String email, required String password});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -33,6 +34,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const AuthenticationException('Invalid user credentials');
       }
       throw AuthenticationException(e.message);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> signUp({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        emailRedirectTo: '//callback-URL', // TODO deep linking
+      );
+
+      if (response.user == null) {
+        throw const AuthenticationException('User could not be created');
+      }
+
+      return UserModel.fromSubapaseUser(response.user!);
     } catch (e) {
       throw ServerException(e.toString());
     }
