@@ -5,12 +5,14 @@ class AuthFormField extends StatelessWidget {
   final bool isPassword;
   final TextEditingController controller;
   final Icon? icon;
+  final String? Function(String?)? validator;
   const AuthFormField({
     super.key,
     required this.hintText,
     required this.controller,
     this.isPassword = false,
     this.icon,
+    this.validator,
   });
 
   @override
@@ -19,6 +21,7 @@ class AuthFormField extends StatelessWidget {
       obscureText: isPassword,
       decoration: InputDecoration(labelText: hintText, prefixIcon: icon),
       controller: controller,
+      validator: validator,
     );
   }
 }

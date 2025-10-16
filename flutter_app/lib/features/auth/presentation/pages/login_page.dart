@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/themes/app_theme.dart';
 import 'package:flutter_app/features/auth/presentation/providers/auth_state_provider.dart';
@@ -17,12 +18,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late TapGestureRecognizer _onTapRecognizer = TapGestureRecognizer();
 
   @override
   void dispose() {
     _mailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _onTapRecognizer =
+        TapGestureRecognizer()
+          ..onTap = () {
+            print(
+              'Should navigate to /signup',
+            ); // TODO goRouter navigate to /signup
+            return;
+          };
+    super.initState();
   }
 
   Future<void> _handleLogin() async {
@@ -87,6 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colorScheme.primary,
                     ),
+                    recognizer: _onTapRecognizer,
                   ),
                 ],
               ),

@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/themes/app_theme.dart';
 import 'package:flutter_app/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:flutter_app/features/auth/presentation/widgets/form_validators.dart';
 import 'package:flutter_app/shared/widgets/buttons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +20,7 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  late TapGestureRecognizer _onTapRecognizer;
 
   @override
   void dispose() {
@@ -25,6 +28,19 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _onTapRecognizer =
+        TapGestureRecognizer()
+          ..onTap = () {
+            print(
+              'Should navigate to /login',
+            ); // TODO goRouter navigate to /login
+            return;
+          };
+    super.initState();
   }
 
   Future<void> _handleSignup() async {
@@ -56,7 +72,7 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
               child: Column(
                 children: [
                   Text(
-                    'Login to PraxisPilot',
+                    'Sign into PraxisPilot',
                     style: context.textTheme.titleLarge,
                   ),
                   SizedBox(height: 30),
@@ -64,6 +80,7 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
                     hintText: 'Email address',
                     icon: Icon(Icons.mail_outline),
                     controller: _mailController,
+                    validator: mailValidator,
                   ),
                   SizedBox(height: 15),
                   AuthFormField(
@@ -71,6 +88,7 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _passwordController,
+                    validator: passwordValidator,
                   ),
                   SizedBox(height: 15),
                   AuthFormField(
@@ -78,6 +96,11 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _confirmPasswordController,
+                    validator:
+                        (value) =>
+                            _passwordController.text != value
+                                ? 'Passwords do not match'
+                                : null,
                   ),
                   SizedBox(height: 30),
                   PrimaryButton(
@@ -91,14 +114,15 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
             SizedBox(height: 20),
             RichText(
               text: TextSpan(
-                text: 'Don\'t have an account? ',
+                text: 'Already have an account? ',
                 style: context.textTheme.bodyMedium,
                 children: [
                   TextSpan(
-                    text: 'Sign Up here!',
+                    text: 'Log in here!',
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colorScheme.primary,
                     ),
+                    recognizer: _onTapRecognizer,
                   ),
                 ],
               ),
