@@ -1,0 +1,1 @@
+enum PracticeType { single, group }

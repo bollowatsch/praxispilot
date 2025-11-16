@@ -1,7 +1,7 @@
-import 'package:flutter_app/core/errors/failures.dart';
-import 'package:flutter_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:flutter_app/features/auth/domain/entities/user.dart';
-import 'package:flutter_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:PraxisPilot/core/errors/failures.dart';
+import 'package:PraxisPilot/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:PraxisPilot/features/auth/domain/entities/user.dart';
+import 'package:PraxisPilot/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 

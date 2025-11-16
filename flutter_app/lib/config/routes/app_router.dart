@@ -1,8 +1,11 @@
+import 'package:PraxisPilot/config/routes/route_constants.dart';
+import 'package:PraxisPilot/features/auth/presentation/pages/login_page.dart';
+import 'package:PraxisPilot/features/auth/presentation/pages/signup_page.dart';
+import 'package:PraxisPilot/features/home/presentation/pages/home_page.dart';
+import 'package:PraxisPilot/features/onboarding/presentation/pages/commercial_info_page.dart';
+import 'package:PraxisPilot/features/onboarding/presentation/pages/personal_info_page.dart';
+import 'package:PraxisPilot/features/onboarding/presentation/pages/preferences_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/routes/route_constants.dart';
-import 'package:flutter_app/features/auth/presentation/pages/login_page.dart';
-import 'package:flutter_app/features/auth/presentation/pages/signup_page.dart';
-import 'package:flutter_app/features/home/presentation/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,6 +30,21 @@ final GoRouter appRouter = GoRouter(
       name: 'home',
       builder: (context, state) => const Home(),
     ),
+    GoRoute(
+      path: RouteConstants.onboardingPersonalInfo,
+      name: 'onboardingPersonalInfo',
+      builder: (context, state) => const OnboardingPersonalInfoPage(),
+    ),
+    GoRoute(
+      path: RouteConstants.onboardingCommercialInfo,
+      name: 'onboardingCommercialInfo',
+      builder: (context, state) => const OnboardingCommercialInfoPage(),
+    ),
+    GoRoute(
+      path: RouteConstants.onboardingPreferences,
+      name: 'onboardingPreferences',
+      builder: (context, state) => const OnboardingPreferencesPage(),
+    ),
   ],
   // Redirect is executed before every navigation and is now used to guard
   // the app against unauthorized routes
@@ -48,7 +66,7 @@ final GoRouter appRouter = GoRouter(
     }
     // redirect to dashboard if already logged in
     if (isAuthenticated && isGoingToAuth) {
-      return RouteConstants.home;
+      return RouteConstants.onboardingPersonalInfo;
     }
     // everything else, just redirect to wanted route
     return null;

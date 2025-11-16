@@ -1,4 +1,4 @@
-import 'package:flutter_app/core/errors/failures.dart';
+import 'package:PraxisPilot/core/errors/failures.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class UseCase<Type, Params> {

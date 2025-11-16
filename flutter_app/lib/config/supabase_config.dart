@@ -1,4 +1,4 @@
-import 'package:flutter_app/config/environment.dart';
+import 'package:PraxisPilot/config/environment.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SupabaseConfig {

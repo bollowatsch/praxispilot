@@ -1,7 +1,7 @@
-import 'package:flutter_app/core/usecases/usecase.dart';
-import 'package:flutter_app/features/auth/domain/usecases/signup_user.dart';
-import 'package:flutter_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:flutter_app/features/auth/presentation/state/auth_state.dart';
+import 'package:PraxisPilot/core/usecases/usecase.dart';
+import 'package:PraxisPilot/features/auth/domain/usecases/signup_user.dart';
+import 'package:PraxisPilot/features/auth/presentation/providers/auth_providers.dart';
+import 'package:PraxisPilot/features/auth/presentation/state/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/usecases/login_user.dart';

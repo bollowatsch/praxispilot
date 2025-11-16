@@ -1,5 +1,5 @@
+import 'package:PraxisPilot/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/themes/app_theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;

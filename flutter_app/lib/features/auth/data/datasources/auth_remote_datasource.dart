@@ -1,5 +1,5 @@
-import 'package:flutter_app/core/errors/failures.dart';
-import 'package:flutter_app/features/auth/data/models/user.dart';
+import 'package:PraxisPilot/core/errors/failures.dart';
+import 'package:PraxisPilot/features/auth/data/models/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRemoteDataSource {

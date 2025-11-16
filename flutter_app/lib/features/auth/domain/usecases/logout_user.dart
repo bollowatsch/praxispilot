@@ -1,6 +1,6 @@
-import 'package:flutter_app/core/errors/failures.dart';
-import 'package:flutter_app/core/usecases/usecase.dart';
-import 'package:flutter_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:PraxisPilot/core/errors/failures.dart';
+import 'package:PraxisPilot/core/usecases/usecase.dart';
+import 'package:PraxisPilot/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class LogoutUser implements UseCase<Unit, NoParams> {

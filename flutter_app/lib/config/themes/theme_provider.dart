@@ -1,6 +1,6 @@
 // config/themes/theme_provider.dart
+import 'package:PraxisPilot/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/themes/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {

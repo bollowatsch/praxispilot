@@ -1,9 +1,10 @@
+import 'package:PraxisPilot/config/themes/app_theme.dart';
+import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
+import 'package:PraxisPilot/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:PraxisPilot/features/auth/presentation/widgets/form_validators.dart';
+import 'package:PraxisPilot/shared/widgets/buttons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/themes/app_theme.dart';
-import 'package:flutter_app/features/auth/presentation/providers/auth_state_provider.dart';
-import 'package:flutter_app/features/auth/presentation/widgets/form_validators.dart';
-import 'package:flutter_app/shared/widgets/buttons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,10 +14,10 @@ class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  ConsumerState<SignUpPage> createState() => _LoginPageState();
+  ConsumerState<SignUpPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends ConsumerState<SignUpPage> {
+class _SignupPageState extends ConsumerState<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -71,19 +72,19 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
               child: Column(
                 children: [
                   Text(
-                    'Sign into PraxisPilot',
+                    context.l10n.signup_title,
                     style: context.textTheme.titleLarge,
                   ),
                   SizedBox(height: 30),
                   AuthFormField(
-                    hintText: 'Email address',
+                    hintText: context.l10n.login_email,
                     icon: Icon(Icons.mail_outline),
                     controller: _mailController,
                     validator: mailValidator,
                   ),
                   SizedBox(height: 15),
                   AuthFormField(
-                    hintText: 'Password',
+                    hintText: context.l10n.login_password,
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _passwordController,
@@ -91,14 +92,14 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
                   ),
                   SizedBox(height: 15),
                   AuthFormField(
-                    hintText: 'Confirm password',
+                    hintText: context.l10n.signup_confirmPassword,
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _confirmPasswordController,
                     validator:
                         (value) =>
                             _passwordController.text != value
-                                ? 'Passwords do not match'
+                                ? context.l10n.signup_noMatch
                                 : null,
                   ),
                   SizedBox(height: 30),
@@ -113,11 +114,11 @@ class _LoginPageState extends ConsumerState<SignUpPage> {
             SizedBox(height: 20),
             RichText(
               text: TextSpan(
-                text: 'Already have an account? ',
+                text: context.l10n.signup_accountPresent,
                 style: context.textTheme.bodyMedium,
                 children: [
                   TextSpan(
-                    text: 'Log in here!',
+                    text: context.l10n.signup_loginHere,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colorScheme.primary,
                     ),

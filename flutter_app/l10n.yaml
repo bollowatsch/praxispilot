@@ -1,5 +1,4 @@
-# l10n.yaml (im Root-Verzeichnis)
-arb-dir: lib/config/localization/l10n
+arb-dir: lib/core/l10n
 template-arb-file: app_de.arb  # Deutsch als Basis
 output-localization-file: app_localizations.dart
 output-class: AppLocalizations

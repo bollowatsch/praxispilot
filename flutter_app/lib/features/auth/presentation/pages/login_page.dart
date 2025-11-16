@@ -1,8 +1,9 @@
+import 'package:PraxisPilot/config/themes/app_theme.dart';
+import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
+import 'package:PraxisPilot/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:PraxisPilot/shared/widgets/buttons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/themes/app_theme.dart';
-import 'package:flutter_app/features/auth/presentation/providers/auth_state_provider.dart';
-import 'package:flutter_app/shared/widgets/buttons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -66,25 +67,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Column(
                 children: [
                   Text(
-                    'Login to PraxisPilot',
+                    context.l10n.login_welcomeText,
                     style: context.textTheme.titleLarge,
                   ),
                   SizedBox(height: 30),
                   AuthFormField(
-                    hintText: 'Email address',
+                    hintText: context.l10n.login_email,
                     icon: Icon(Icons.mail_outline),
                     controller: _mailController,
                   ),
                   SizedBox(height: 15),
                   AuthFormField(
-                    hintText: 'Password',
+                    hintText: context.l10n.login_password,
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _passwordController,
                   ),
                   SizedBox(height: 30),
                   PrimaryButton(
-                    label: 'Login',
+                    label: context.l10n.login_login,
                     icon: Icons.login,
                     onPressed: _handleLogin,
                   ),
@@ -94,11 +95,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             SizedBox(height: 20),
             RichText(
               text: TextSpan(
-                text: 'Don\'t have an account? ',
+                text: context.l10n.login_noAccount,
                 style: context.textTheme.bodyMedium,
                 children: [
                   TextSpan(
-                    text: 'Sign Up here!',
+                    text: context.l10n.login_signUpHere,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: context.colorScheme.primary,
                     ),

@@ -1,5 +1,5 @@
-import 'package:flutter_app/core/errors/failures.dart';
-import 'package:flutter_app/features/auth/domain/entities/user.dart';
+import 'package:PraxisPilot/core/errors/failures.dart';
+import 'package:PraxisPilot/features/auth/domain/entities/user.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
