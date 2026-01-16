@@ -5,6 +5,7 @@ import 'package:PraxisPilot/features/home/presentation/pages/home_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/commercial_info_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/personal_info_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/preferences_page.dart';
+import 'package:PraxisPilot/features/patients/presentation/pages/patients_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,6 +31,7 @@ final GoRouter appRouter = GoRouter(
       name: 'dashboard',
       builder: (context, state) => const Dashboard(),
     ),
+    // onboarding
     GoRoute(
       path: RouteConstants.onboardingPersonalInfo,
       name: 'onboardingPersonalInfo',
@@ -44,6 +46,12 @@ final GoRouter appRouter = GoRouter(
       path: RouteConstants.onboardingPreferences,
       name: 'onboardingPreferences',
       builder: (context, state) => const OnboardingPreferencesPage(),
+    ),
+    // patients
+    GoRoute(
+      path: RouteConstants.patients,
+      name: 'patients',
+      builder: (context, state) => const PatientsPage(),
     ),
   ],
   // Redirect is executed before every navigation and is now used to guard

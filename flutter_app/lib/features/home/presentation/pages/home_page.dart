@@ -58,26 +58,21 @@ class Dashboard extends ConsumerWidget {
                 ),
               ],
               const SizedBox(height: 48),
-              Text(
-                'Dashboard coming soon...',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
-                textAlign: TextAlign.center,
+              FilledButton.icon(
+                onPressed: () => context.goNamed('patients'),
+                icon: const Icon(Icons.people),
+                label: const Text('Patienten verwalten'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Text(
-                'Future features:',
+                'Weitere Features in Entwicklung...',
                 style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '• Recent activity (last edited notes)\n'
-                '• Quick actions (new patient, new note)\n'
-                '• Patient list\n'
-                '• Search functionality',
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.center,
               ),
             ],
           ),

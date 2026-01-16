@@ -7,4 +7,8 @@ class RouteConstants {
   static const String onboardingPersonalInfo = '/onboarding/personal_info';
   static const String onboardingCommercialInfo = '/onboarding/commercial_info';
   static const String onboardingPreferences = '/onboarding/preferences';
+
+  // patients
+  static const String patients = '/patients';
+  static const String patientDetail = '/patients/:id';
 }
