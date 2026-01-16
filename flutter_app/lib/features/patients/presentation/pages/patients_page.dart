@@ -1,8 +1,8 @@
 import 'package:PraxisPilot/features/patients/domain/entities/patient.dart';
 import 'package:PraxisPilot/features/patients/presentation/providers/patient_state_provider.dart';
-import 'package:PraxisPilot/features/patients/presentation/widgets/patient_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PatientsPage extends ConsumerStatefulWidget {
   const PatientsPage({super.key});
@@ -47,10 +47,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await showDialog<bool>(
-            context: context,
-            builder: (context) => const PatientFormDialog(),
-          );
+          final result = await context.pushNamed<bool>('newPatient');
 
           // Refresh list if patient was created
           if (result == true && mounted) {
@@ -278,13 +275,28 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
                 ),
               ),
             IconButton(
+              icon: const Icon(Icons.edit, size: 20),
+              tooltip: 'Bearbeiten',
+              onPressed: () async {
+                final result = await context.pushNamed<bool>(
+                  'editPatient',
+                  pathParameters: {'id': patient.id},
+                  extra: patient,
+                );
+
+                // Refresh list if patient was updated
+                if (result == true && mounted) {
+                  ref.read(patientStateProvider.notifier).loadPatients();
+                }
+              },
+            ),
+            IconButton(
               icon: const Icon(Icons.arrow_forward_ios, size: 16),
+              tooltip: 'Details anzeigen',
               onPressed: () {
-                // TODO: Navigate to patient detail
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Patient detail for ${patient.fullName}'),
-                  ),
+                context.pushNamed(
+                  'patientDetail',
+                  pathParameters: {'id': patient.id},
                 );
               },
             ),
@@ -292,9 +304,9 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
         ),
         isThreeLine: true,
         onTap: () {
-          // TODO: Navigate to patient detail
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Selected ${patient.fullName}')),
+          context.pushNamed(
+            'patientDetail',
+            pathParameters: {'id': patient.id},
           );
         },
       ),

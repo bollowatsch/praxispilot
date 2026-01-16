@@ -5,7 +5,10 @@ import 'package:PraxisPilot/features/home/presentation/pages/home_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/commercial_info_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/personal_info_page.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/pages/preferences_page.dart';
+import 'package:PraxisPilot/features/patients/domain/entities/patient.dart';
+import 'package:PraxisPilot/features/patients/presentation/pages/patient_detail_page.dart';
 import 'package:PraxisPilot/features/patients/presentation/pages/patients_page.dart';
+import 'package:PraxisPilot/features/patients/presentation/widgets/patient_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -52,6 +55,27 @@ final GoRouter appRouter = GoRouter(
       path: RouteConstants.patients,
       name: 'patients',
       builder: (context, state) => const PatientsPage(),
+    ),
+    GoRoute(
+      path: '/patients/new',
+      name: 'newPatient',
+      builder: (context, state) => const PatientFormDialog(),
+    ),
+    GoRoute(
+      path: '/patients/:id',
+      name: 'patientDetail',
+      builder: (context, state) {
+        final patientId = state.pathParameters['id']!;
+        return PatientDetailPage(patientId: patientId);
+      },
+    ),
+    GoRoute(
+      path: '/patients/:id/edit',
+      name: 'editPatient',
+      builder: (context, state) {
+        final patient = state.extra as Patient;
+        return PatientFormDialog(patient: patient);
+      },
     ),
   ],
   // Redirect is executed before every navigation and is now used to guard
