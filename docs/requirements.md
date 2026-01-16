@@ -114,7 +114,7 @@ This document defines the requirements for the PraxisPilot application. PraxisPi
 | Default language | German (Austria is primary market) |
 | Supported languages | German, English |
 | Language selection | Default German, changeable in settings |
-| Date format | User-configurable preference (DD.MM.YYYY, MM/DD/YYYY, etc.) |
+| Date/Time format | Derived from system locale automatically |
 
 ---
 

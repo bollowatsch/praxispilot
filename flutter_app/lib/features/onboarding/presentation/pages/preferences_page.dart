@@ -22,12 +22,8 @@ class _OnboardingPreferencesPageState
   final _formKey = GlobalKey<FormState>();
 
   prefs.ThemeMode _themeMode = prefs.ThemeMode.system;
-  prefs.DateFormat _dateFormat = prefs.DateFormat.dMyDots;
-  prefs.TimeFormat _timeFormat = prefs.TimeFormat.h24;
   String _timezone = 'Europe/Vienna';
   prefs.AppLanguage _language = prefs.AppLanguage.de;
-  bool _highContrast = false;
-  bool _reduceAnimations = false;
   bool _isLoading = false;
 
   @override
@@ -48,70 +44,20 @@ class _OnboardingPreferencesPageState
               key: _formKey,
               child: Column(
                 children: [
-                  Row(
-                    spacing: 10,
-                    children: [
-                      Expanded(
-                        child: ThemeModeSelector(
-                          value: _themeMode,
-                          onChanged: (mode) {
-                            setState(() => _themeMode = mode);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: DropdownButtonFormField<prefs.DateFormat>(
-                          value: _dateFormat,
-                          decoration: InputDecoration(
-                            labelText: context.l10n.preferences_dateFormat,
-                          ),
-                          items:
-                              prefs.DateFormat.values.map((fmt) {
-                                return DropdownMenuItem(
-                                  value: fmt,
-                                  child: Text(fmt.name),
-                                );
-                              }).toList(),
-                          onChanged: (value) {
-                            if (value == null) return;
-                            setState(() => _dateFormat = value);
-                          },
-                          validator: (value) {
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
+                  /// Theme Mode
+                  ThemeModeSelector(
+                    value: _themeMode,
+                    onChanged: (mode) {
+                      setState(() => _themeMode = mode);
+                    },
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
 
-                  /// TimeFormat + Locale
+                  /// Language + Timezone
                   Row(
                     spacing: 10,
                     children: [
-                      Expanded(
-                        child: DropdownButtonFormField<prefs.TimeFormat>(
-                          value: _timeFormat,
-                          decoration: InputDecoration(
-                            labelText: context.l10n.preferences_timeFormat,
-                          ),
-                          items:
-                              prefs.TimeFormat.values.map((fmt) {
-                                return DropdownMenuItem(
-                                  value: fmt,
-                                  child: Text(fmt.name),
-                                );
-                              }).toList(),
-                          onChanged: (value) {
-                            if (value == null) return;
-                            setState(() => _timeFormat = value);
-                          },
-                          validator: (value) {
-                            return null;
-                          },
-                        ),
-                      ),
                       Expanded(
                         child: DropdownButtonFormField<prefs.AppLanguage>(
                           onChanged: (value) {
@@ -119,7 +65,6 @@ class _OnboardingPreferencesPageState
                             setState(() => _language = value);
                           },
                           validator: (value) {
-                            // Falls später notwendig – jetzt einfach immer OK
                             return null;
                           },
                           value: _language,
@@ -136,35 +81,6 @@ class _OnboardingPreferencesPageState
                                   }),
                                 );
                               }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  /// Switches: High Contrast + Reduce Animations
-                  Row(
-                    spacing: 10,
-                    children: [
-                      Expanded(
-                        child: SwitchListTile(
-                          title: Text(context.l10n.preferences_highContrast),
-                          value: _highContrast,
-                          onChanged: (val) {
-                            setState(() => _highContrast = val);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: SwitchListTile(
-                          title: Text(
-                            context.l10n.preferences_reduceAnimations,
-                          ),
-                          value: _reduceAnimations,
-                          onChanged: (val) {
-                            setState(() => _reduceAnimations = val);
-                          },
                         ),
                       ),
                     ],
@@ -193,7 +109,6 @@ class _OnboardingPreferencesPageState
                       setState(() => _timezone = value);
                     },
                     validator: (value) {
-                      // Beispiel: Timezone muss gesetzt sein
                       if (value == null || value.isEmpty) {
                         return context.l10n.form_error_required;
                       }
@@ -241,10 +156,6 @@ class _OnboardingPreferencesPageState
 
     final userPreferences = prefs.UserPreferences(
       themeMode: _themeMode,
-      dateFormat: _dateFormat,
-      timeFormat: _timeFormat,
-      highContrast: _highContrast,
-      reduceAnimations: _reduceAnimations,
       language: _language,
       timezone: _timezone,
     );
@@ -267,8 +178,8 @@ class _OnboardingPreferencesPageState
         );
       },
       (_) {
-        // Onboarding complete, navigate to home
-        context.goNamed('home');
+        // Onboarding complete, navigate to dashboard
+        context.goNamed('dashboard');
       },
     );
   }

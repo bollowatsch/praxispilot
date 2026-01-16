@@ -26,9 +26,9 @@ final GoRouter appRouter = GoRouter(
     ),
     // home
     GoRoute(
-      path: RouteConstants.home,
-      name: 'home',
-      builder: (context, state) => const Home(),
+      path: RouteConstants.dashboard,
+      name: 'dashboard',
+      builder: (context, state) => const Dashboard(),
     ),
     GoRoute(
       path: RouteConstants.onboardingPersonalInfo,
@@ -66,7 +66,7 @@ final GoRouter appRouter = GoRouter(
     }
     // redirect to dashboard if already logged in
     if (isAuthenticated && isGoingToAuth) {
-      return RouteConstants.onboardingPersonalInfo;
+      return RouteConstants.dashboard;
     }
     // everything else, just redirect to wanted route
     return null;

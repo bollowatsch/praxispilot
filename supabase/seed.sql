@@ -151,7 +151,6 @@ DO $$
         SET
             theme_mode = 'dark',
             language = 'de',
-            locale = 'de_AT',
             updated_at = NOW()
         WHERE user_profile_id IN (
             SELECT id FROM public.user_profiles WHERE user_id = v_test_user_3
