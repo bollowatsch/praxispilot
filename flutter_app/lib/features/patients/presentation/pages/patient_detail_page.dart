@@ -84,8 +84,11 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
           );
         },
         backgroundColor: colorScheme.primary,
-        icon: const Icon(Icons.edit_note),
-        label: const Text('Neue Sitzungsnotiz'),
+        icon: Icon(Icons.edit_note, color: colorScheme.onPrimary),
+        label: Text(
+          'Neue Sitzungsnotiz',
+          style: TextStyle(color: colorScheme.onPrimary),
+        ),
       ),
     );
   }
