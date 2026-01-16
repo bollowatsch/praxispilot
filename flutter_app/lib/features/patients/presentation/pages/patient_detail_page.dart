@@ -83,12 +83,8 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
             const SnackBar(content: Text('Neue Sitzungsnotiz - coming soon')),
           );
         },
-        backgroundColor: colorScheme.primary,
-        icon: Icon(Icons.edit_note, color: colorScheme.onPrimary),
-        label: Text(
-          'Neue Sitzungsnotiz',
-          style: TextStyle(color: colorScheme.onPrimary),
-        ),
+        icon: Icon(Icons.edit_note),
+        label: Text('Neue Sitzungsnotiz'),
       ),
     );
   }
