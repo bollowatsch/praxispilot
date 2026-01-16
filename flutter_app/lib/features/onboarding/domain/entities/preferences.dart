@@ -1,6 +1,10 @@
 enum ThemeMode { light, dark, system }
 
-enum DateFormat { yMdHyphen, dMyDots, mDySlash }
+enum DateFormat {
+  yMdHyphen,    // YYYY-MM-DD
+  dMyDots,      // DD.MM.YYYY
+  mDySlash      // MM/DD/YYYY
+}
 
 enum TimeFormat { h24, h12 }
 

@@ -47,7 +47,7 @@ class ThemeModeSelector extends ConsumerWidget {
               child: _ThemeModeTile(
                 icon: Icons.dark_mode_outlined,
                 label: 'Dunkel',
-                selected: value == ThemeMode.dark,
+                selected: value == prefs.ThemeMode.dark,
                 onTap: () => onChanged(prefs.ThemeMode.dark),
                 colorScheme: colorScheme,
               ),
@@ -57,7 +57,7 @@ class ThemeModeSelector extends ConsumerWidget {
               child: _ThemeModeTile(
                 icon: Icons.brightness_auto_outlined,
                 label: 'System',
-                selected: value == ThemeMode.system,
+                selected: value == prefs.ThemeMode.system,
                 onTap: () => onChanged(prefs.ThemeMode.system),
                 colorScheme: colorScheme,
               ),
@@ -87,7 +87,9 @@ class _ThemeModeTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bgColor =
-        selected ? colorScheme.primary.withOpacity(0.1) : colorScheme.surface;
+        selected
+            ? colorScheme.primary.withValues(alpha: 0.1)
+            : colorScheme.surface;
     final borderColor =
         selected ? colorScheme.primary : colorScheme.outlineVariant;
 

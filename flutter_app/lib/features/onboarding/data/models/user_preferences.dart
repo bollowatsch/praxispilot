@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:PraxisPilot/features/onboarding/domain/entities/preferences.dart';
 
 class UserPreferencesModel {
@@ -8,7 +6,7 @@ class UserPreferencesModel {
   final String timeFormat;
   final bool highContrast;
   final bool reduceAnimations;
-  final String locale;
+  final String language;
   final String timezone;
 
   const UserPreferencesModel({
@@ -17,7 +15,7 @@ class UserPreferencesModel {
     required this.timeFormat,
     required this.highContrast,
     required this.reduceAnimations,
-    required this.locale,
+    required this.language,
     required this.timezone,
   });
 
@@ -28,7 +26,7 @@ class UserPreferencesModel {
       timeFormat: map['time_format'] as String,
       highContrast: map['high_contrast'] as bool,
       reduceAnimations: map['reduce_animations'] as bool,
-      locale: map['language'] as String,
+      language: map['language'] as String,
       timezone: map['timezone'] as String,
     );
   }
@@ -39,20 +37,18 @@ class UserPreferencesModel {
     'time_format': timeFormat,
     'high_contrast': highContrast,
     'reduce_animations': reduceAnimations,
-    'language': locale,
+    'language': language,
     'timezone': timezone,
   };
 
   UserPreferences toEntity() {
     return UserPreferences(
-      themeMode: ThemeMode.values.asNameMap()['theme_mode'] ?? ThemeMode.system,
-      dateFormat:
-          DateFormat.values.asNameMap()['date_format'] ?? DateFormat.dMyDots,
-      timeFormat:
-          TimeFormat.values.asNameMap()['time_format'] ?? TimeFormat.h24,
+      themeMode: _parseThemeMode(themeMode),
+      dateFormat: _parseDateFormat(dateFormat),
+      timeFormat: _parseTimeFormat(timeFormat),
       highContrast: highContrast,
       reduceAnimations: reduceAnimations,
-      locale: Locale(locale),
+      language: _parseLanguage(language),
       timezone: timezone,
     );
   }
@@ -64,8 +60,55 @@ class UserPreferencesModel {
       timeFormat: entity.timeFormat.name,
       highContrast: entity.highContrast,
       reduceAnimations: entity.reduceAnimations,
-      locale: entity.locale.languageCode,
+      language: entity.language.name,
       timezone: entity.timezone,
     );
+  }
+
+  static ThemeMode _parseThemeMode(String value) {
+    switch (value.toLowerCase()) {
+      case 'light':
+        return ThemeMode.light;
+      case 'dark':
+        return ThemeMode.dark;
+      case 'system':
+      default:
+        return ThemeMode.system;
+    }
+  }
+
+  static DateFormat _parseDateFormat(String value) {
+    switch (value.toLowerCase()) {
+      case 'yMdHyphen':
+        return DateFormat.yMdHyphen;
+      case 'dMyDots':
+        return DateFormat.dMyDots;
+      case 'mDySlash':
+        return DateFormat.mDySlash;
+      default:
+        return DateFormat.dMyDots;
+    }
+  }
+
+  static TimeFormat _parseTimeFormat(String value) {
+    switch (value.toLowerCase()) {
+      case 'h24':
+        return TimeFormat.h24;
+      case 'h12':
+        return TimeFormat.h12;
+      default:
+        return TimeFormat.h24;
+    }
+  }
+
+  static AppLanguage _parseLanguage(String value) {
+    switch (value.toLowerCase()) {
+      case 'de':
+        return AppLanguage.de;
+      case 'en':
+        return AppLanguage.en;
+      default:
+        return AppLanguage.de;
+    }
   }
 }

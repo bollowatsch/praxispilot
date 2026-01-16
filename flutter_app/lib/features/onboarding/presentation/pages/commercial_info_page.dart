@@ -1,5 +1,7 @@
 import 'package:PraxisPilot/config/themes/app_theme.dart';
 import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
+import 'package:PraxisPilot/features/onboarding/domain/entities/practice_info.dart';
+import 'package:PraxisPilot/features/onboarding/presentation/providers/onboarding_providers.dart';
 import 'package:PraxisPilot/shared/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +29,7 @@ class _OnboardingCommercialInfoPageState
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _webSiteController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -58,17 +61,6 @@ class _OnboardingCommercialInfoPageState
               style: context.textTheme.titleLarge,
             ),
             SizedBox(height: 30),
-            //     _practiceNameController.dispose();
-            //     _practiceTypeController.dispose();
-            //     _streetController.dispose();
-            //     _houseNrController.dispose();
-            //     _postalCodeController.dispose();
-            //     _cityController.dispose();
-            //     _stateController.dispose();
-            //     _countryController.dispose();
-            //     _phoneController.dispose();
-            //     _emailController.dispose();
-            //     _webSiteController.dispose();
             Form(
               key: _formKey,
               child: Column(
@@ -83,6 +75,12 @@ class _OnboardingCommercialInfoPageState
                           decoration: InputDecoration(
                             labelText: context.l10n.dummy_practiceName,
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return context.l10n.form_error_required;
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
@@ -167,35 +165,74 @@ class _OnboardingCommercialInfoPageState
               ),
             ),
             SizedBox(height: 10),
-            Row(
-              spacing: 15,
-              children: [
-                Flexible(
-                  child: PrimaryButton(
-                    label: '',
-                    icon: Icons.arrow_back,
-                    onPressed: () => context.pop(),
-                  ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : Row(
+                  spacing: 15,
+                  children: [
+                    Flexible(
+                      child: PrimaryButton(
+                        label: '',
+                        icon: Icons.arrow_back,
+                        onPressed: () => context.pop(),
+                      ),
+                    ),
+                    Flexible(
+                      child: PrimaryButton(
+                        label: '',
+                        icon: Icons.arrow_forward,
+                        onPressed: _handleSubmit,
+                      ),
+                    ),
+                  ],
                 ),
-                Flexible(
-                  child: PrimaryButton(
-                    label: '',
-                    icon: Icons.arrow_forward,
-                    onPressed: _handleSubmit,
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
     );
   }
 
-  void _handleSubmit() {
-    // ref.watch(PersonalInformationProvider).savePersonalInformation(
-    //   _titlePrefixController.text, _firstNameController.text, _lastNameController.text, _titleSuffixController.text, _emailController.text, _phoneController.text
-    // );
-    context.pushNamed('onboardingPreferences');
+  Future<void> _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    final practiceInfo = PracticeInfo(
+      practiceName: _practiceNameController.text.trim(),
+      practiceType: _practiceTypeController.text.trim(),
+      street: _streetController.text.trim(),
+      houseNumber: _houseNrController.text.trim(),
+      postalCode: _postalCodeController.text.trim(),
+      city: _cityController.text.trim(),
+      state: _stateController.text.trim(),
+      country: _countryController.text.trim(),
+      phone: _phoneController.text.trim(),
+      email: _emailController.text.trim(),
+      website: _webSiteController.text.trim(),
+    );
+
+    final result = await ref
+        .read(setPracticeInfoProvider)
+        .call(practiceInfo: practiceInfo);
+
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${failure.message}'),
+            backgroundColor: context.colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        context.pushNamed('onboardingPreferences');
+      },
+    );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:PraxisPilot/config/themes/app_theme.dart';
 import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
+import 'package:PraxisPilot/features/onboarding/domain/entities/personal_info.dart';
+import 'package:PraxisPilot/features/onboarding/presentation/providers/onboarding_providers.dart';
 import 'package:PraxisPilot/shared/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +24,7 @@ class _OnboardingPersonalInfoPageState
   final _titleSuffixController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -71,6 +74,12 @@ class _OnboardingPersonalInfoPageState
                           decoration: InputDecoration(
                             labelText: context.l10n.dummy_firstName,
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return context.l10n.form_error_required;
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ],
@@ -86,6 +95,12 @@ class _OnboardingPersonalInfoPageState
                           decoration: InputDecoration(
                             labelText: context.l10n.dummy_lastName,
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return context.l10n.form_error_required;
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Flexible(
@@ -120,21 +135,55 @@ class _OnboardingPersonalInfoPageState
             ),
             SizedBox(height: 15),
 
-            PrimaryButton(
-              label: '',
-              icon: Icons.arrow_forward,
-              onPressed: _handleSubmit,
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : PrimaryButton(
+                    label: '',
+                    icon: Icons.arrow_forward,
+                    onPressed: _handleSubmit,
+                  ),
           ],
         ),
       ),
     );
   }
 
-  void _handleSubmit() {
-    // ref.watch(PersonalInformationProvider).savePersonalInformation(
-    //   _titlePrefixController.text, _firstNameController.text, _lastNameController.text, _titleSuffixController.text, _emailController.text, _phoneController.text
-    // );
-    context.pushNamed('onboardingCommercialInfo');
+  Future<void> _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    final personalInfo = PersonalInfo(
+      titlePrefix: _titlePrefixController.text.trim(),
+      firstName: _firstNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      titleSuffix: _titleSuffixController.text.trim(),
+      email: _emailController.text.trim(),
+      phone: _phoneController.text.trim(),
+    );
+
+    final result = await ref.read(setPersonalInfoProvider).call(
+      personalInfo: personalInfo,
+    );
+
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${failure.message}'),
+            backgroundColor: context.colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        context.pushNamed('onboardingCommercialInfo');
+      },
+    );
   }
 }

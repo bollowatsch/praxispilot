@@ -2,6 +2,7 @@ import 'package:PraxisPilot/config/themes/app_theme.dart';
 import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
 import 'package:PraxisPilot/features/onboarding/domain/entities/preferences.dart'
     as prefs;
+import 'package:PraxisPilot/features/onboarding/presentation/providers/user_preferences_provider.dart';
 import 'package:PraxisPilot/features/onboarding/presentation/widgets/widgets.dart';
 import 'package:PraxisPilot/shared/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class _OnboardingPreferencesPageState
   prefs.AppLanguage _language = prefs.AppLanguage.de;
   bool _highContrast = false;
   bool _reduceAnimations = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +54,11 @@ class _OnboardingPreferencesPageState
                       Expanded(
                         child: ThemeModeSelector(
                           value: _themeMode,
-                          onChanged: (mode) {},
+                          onChanged: (mode) {
+                            setState(() => _themeMode = mode);
+                          },
                         ),
                       ),
-                      // Expanded(
-                      //   child: DropdownButtonFormField<prefs.ThemeMode>(
-                      //     value: _themeMode,
-                      //     decoration: InputDecoration(
-                      //       labelText: context.l10n.preferences_themeMode,
-                      //     ),
-                      //     items:
-                      //         prefs.ThemeMode.values.map((mode) {
-                      //           return DropdownMenuItem(
-                      //             value: mode,
-                      //             child: Text(mode.name),
-                      //           );
-                      //         }).toList(),
-                      //     onChanged: (value) {
-                      //       if (value == null) return;
-                      //       setState(() => _themeMode = value);
-                      //     },
-                      //     validator: (value) {
-                      //       // Falls du später Pflichtfelder willst
-                      //       return null;
-                      //     },
-                      //   ),
-                      // ),
                       Expanded(
                         child: DropdownButtonFormField<prefs.DateFormat>(
                           value: _dateFormat,
@@ -224,35 +205,71 @@ class _OnboardingPreferencesPageState
             ),
 
             const SizedBox(height: 20),
-            Row(
-              spacing: 10,
-              children: [
-                Flexible(
-                  child: PrimaryButton(
-                    label: '',
-                    icon: Icons.arrow_back,
-                    onPressed: () => context.pop(),
-                  ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : Row(
+                  spacing: 10,
+                  children: [
+                    Flexible(
+                      child: PrimaryButton(
+                        label: '',
+                        icon: Icons.arrow_back,
+                        onPressed: () => context.pop(),
+                      ),
+                    ),
+                    Flexible(
+                      child: PrimaryButton(
+                        label: '',
+                        icon: Icons.check,
+                        onPressed: _handleSubmit,
+                      ),
+                    ),
+                  ],
                 ),
-                Flexible(
-                  child: PrimaryButton(
-                    label: '',
-                    icon: Icons.check,
-                    onPressed: _handleSubmit,
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
     );
   }
 
-  void _handleSubmit() {
-    // ref.watch(PersonalInformationProvider).savePersonalInformation(
-    //   _titlePrefixController.text, _firstNameController.text, _lastNameController.text, _titleSuffixController.text, _emailController.text, _phoneController.text
-    // );
-    context.goNamed('home');
+  Future<void> _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    final userPreferences = prefs.UserPreferences(
+      themeMode: _themeMode,
+      dateFormat: _dateFormat,
+      timeFormat: _timeFormat,
+      highContrast: _highContrast,
+      reduceAnimations: _reduceAnimations,
+      language: _language,
+      timezone: _timezone,
+    );
+
+    final result = await ref
+        .read(setUserPreferencesProvider)
+        .call(userPreferences: userPreferences);
+
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${failure.message}'),
+            backgroundColor: context.colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        // Onboarding complete, navigate to home
+        context.goNamed('home');
+      },
+    );
   }
 }
