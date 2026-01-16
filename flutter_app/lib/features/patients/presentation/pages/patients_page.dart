@@ -274,32 +274,6 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
                   fontSize: 12,
                 ),
               ),
-            IconButton(
-              icon: const Icon(Icons.edit, size: 20),
-              tooltip: 'Bearbeiten',
-              onPressed: () async {
-                final result = await context.pushNamed<bool>(
-                  'editPatient',
-                  pathParameters: {'id': patient.id},
-                  extra: patient,
-                );
-
-                // Refresh list if patient was updated
-                if (result == true && mounted) {
-                  ref.read(patientStateProvider.notifier).loadPatients();
-                }
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios, size: 16),
-              tooltip: 'Details anzeigen',
-              onPressed: () {
-                context.pushNamed(
-                  'patientDetail',
-                  pathParameters: {'id': patient.id},
-                );
-              },
-            ),
           ],
         ),
         isThreeLine: true,
