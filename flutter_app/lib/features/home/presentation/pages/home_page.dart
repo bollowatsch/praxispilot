@@ -59,7 +59,7 @@ class Dashboard extends ConsumerWidget {
               ],
               const SizedBox(height: 48),
               FilledButton.icon(
-                onPressed: () => context.goNamed('patients'),
+                onPressed: () => context.pushNamed('patients'),
                 icon: const Icon(Icons.people),
                 label: const Text('Patienten verwalten'),
                 style: FilledButton.styleFrom(
