@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 /// Service that tracks user inactivity and triggers logout after 30 minutes
 class InactivityService {
-  static const Duration _inactivityTimeout = Duration(minutes: 3);
+  static const Duration _inactivityTimeout = Duration(minutes: 30);
 
   Timer? _inactivityTimer;
   final VoidCallback onInactivityTimeout;
