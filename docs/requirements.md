@@ -107,7 +107,9 @@ This document defines the requirements for the PraxisPilot application. PraxisPi
 | Activity tracking | All pointer events (taps, scrolls, etc.) reset the inactivity timer |
 | Data isolation | Strict per-therapist isolation; no cross-therapist data access |
 
-**Session Timeout Implementation:**
+**Security Implementation Details:**
+
+*Inactivity Timeout:*
 - Implemented via `InactivityService` and `InactivityDetector` widget wrapper
 - Timer resets on any user interaction (pointer down/move/up events)
 - Timer automatically stops when user logs out

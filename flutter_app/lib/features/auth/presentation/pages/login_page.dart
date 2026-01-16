@@ -52,7 +52,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     } else {
       print('unsuccessful login: success = ${success}');
     }
-    context.goNamed('onboardingPersonalInfo');
   }
 
   @override
