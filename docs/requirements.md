@@ -102,8 +102,17 @@ This document defines the requirements for the PraxisPilot application. PraxisPi
 | Aspect | Decision |
 |--------|----------|
 | Password reset | Email-based reset links + admin manual reset for locked accounts |
-| Session timeout | Configurable auto-logout (user sets duration in settings) |
+| Session timeout | Fixed 30-minute inactivity timeout with automatic logout |
+| Session invalidation | On timeout: logout, navigate to login, show notification |
+| Activity tracking | All pointer events (taps, scrolls, etc.) reset the inactivity timer |
 | Data isolation | Strict per-therapist isolation; no cross-therapist data access |
+
+**Session Timeout Implementation:**
+- Implemented via `InactivityService` and `InactivityDetector` widget wrapper
+- Timer resets on any user interaction (pointer down/move/up events)
+- Timer automatically stops when user logs out
+- Timer automatically restarts when user logs back in
+- Protects sensitive patient data by ensuring unattended sessions are closed
 
 ---
 

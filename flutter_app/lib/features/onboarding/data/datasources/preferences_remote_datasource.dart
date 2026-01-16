@@ -21,7 +21,7 @@ class UserPreferencesRemoteDataSourceImpl
           await supabaseClient
               .from('user_preferences')
               .select(
-                'theme_mode, language, timezone',
+                'theme_mode, language, timezone, session_duration',
               )
               .maybeSingle();
       if (response == null) {

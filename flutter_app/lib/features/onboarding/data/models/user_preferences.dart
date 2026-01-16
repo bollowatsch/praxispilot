@@ -4,11 +4,13 @@ class UserPreferencesModel {
   final String themeMode;
   final String language;
   final String timezone;
+  final int sessionDuration;
 
   const UserPreferencesModel({
     required this.themeMode,
     required this.language,
     required this.timezone,
+    required this.sessionDuration,
   });
 
   factory UserPreferencesModel.fromMap({required Map<String, dynamic> map}) {
@@ -16,6 +18,7 @@ class UserPreferencesModel {
       themeMode: map['theme_mode'] as String,
       language: map['language'] as String,
       timezone: map['timezone'] as String,
+      sessionDuration: map['session_duration'] as int? ?? 50,
     );
   }
 
@@ -23,6 +26,7 @@ class UserPreferencesModel {
     'theme_mode': themeMode,
     'language': language,
     'timezone': timezone,
+    'session_duration': sessionDuration,
   };
 
   UserPreferences toEntity() {
@@ -30,6 +34,7 @@ class UserPreferencesModel {
       themeMode: _parseThemeMode(themeMode),
       language: _parseLanguage(language),
       timezone: timezone,
+      sessionDuration: sessionDuration,
     );
   }
 
@@ -38,6 +43,7 @@ class UserPreferencesModel {
       themeMode: entity.themeMode.name,
       language: entity.language.name,
       timezone: entity.timezone,
+      sessionDuration: entity.sessionDuration,
     );
   }
 
