@@ -108,35 +108,27 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
             patient.fullName,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          Text(
-            'PP-${patient.id.substring(0, 4).toUpperCase()}',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.5,
-              color: colorScheme.onSurface.withOpacity(0.5),
-            ),
-          ),
         ],
       ),
       centerTitle: true,
       actions: [
         PopupMenuButton(
           icon: const Icon(Icons.more_vert),
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              child: const Text('Patient archivieren'),
-              onTap: () {
-                // TODO: Archive patient
-              },
-            ),
-            PopupMenuItem(
-              child: const Text('Patient löschen'),
-              onTap: () {
-                // TODO: Delete patient
-              },
-            ),
-          ],
+          itemBuilder:
+              (context) => [
+                PopupMenuItem(
+                  child: const Text('Patient archivieren'),
+                  onTap: () {
+                    // TODO: Archive patient
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text('Patient löschen'),
+                  onTap: () {
+                    // TODO: Delete patient
+                  },
+                ),
+              ],
         ),
       ],
     );
@@ -163,10 +155,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                   decoration: BoxDecoration(
                     color: colorScheme.primaryContainer,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: colorScheme.surface,
-                      width: 4,
-                    ),
+                    border: Border.all(color: colorScheme.surface, width: 4),
                   ),
                   child: Center(
                     child: Text(
@@ -187,10 +176,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                     decoration: BoxDecoration(
                       color: colorScheme.primary,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: colorScheme.surface,
-                        width: 2,
-                      ),
+                      border: Border.all(color: colorScheme.surface, width: 2),
                     ),
                     child: Icon(
                       Icons.edit,
@@ -228,13 +214,15 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                       letterSpacing: 1,
                     ),
                   ),
-                  backgroundColor: patient.isActive
-                      ? colorScheme.primary.withOpacity(0.1)
-                      : colorScheme.error.withOpacity(0.1),
+                  backgroundColor:
+                      patient.isActive
+                          ? colorScheme.primary.withOpacity(0.1)
+                          : colorScheme.error.withOpacity(0.1),
                   labelStyle: TextStyle(
-                    color: patient.isActive
-                        ? colorScheme.primary
-                        : colorScheme.error,
+                    color:
+                        patient.isActive
+                            ? colorScheme.primary
+                            : colorScheme.error,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -274,10 +262,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
             fontSize: 14,
             letterSpacing: 0.5,
           ),
-          tabs: const [
-            Tab(text: 'PROFIL'),
-            Tab(text: 'SITZUNGSPROTOKOLLE'),
-          ],
+          tabs: const [Tab(text: 'PROFIL'), Tab(text: 'SITZUNGSPROTOKOLLE')],
         ),
       ),
     );
@@ -332,34 +317,20 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
         ),
         const SizedBox(height: 24),
         if (patient.emergencyContact != null)
-          _buildSection(
-            context,
-            'NOTFALLKONTAKT',
-            [
-              _buildEmergencyContactTile(
-                context,
-                patient.emergencyContact!.name,
-                patient.emergencyContact!.relationship ?? 'Kontakt',
-                patient.emergencyContact!.phone,
-                colorScheme,
-              ),
-            ],
-            colorScheme: colorScheme,
-          ),
+          _buildSection(context, 'NOTFALLKONTAKT', [
+            _buildEmergencyContactTile(
+              context,
+              patient.emergencyContact!.name,
+              patient.emergencyContact!.relationship ?? 'Kontakt',
+              patient.emergencyContact!.phone,
+              colorScheme,
+            ),
+          ], colorScheme: colorScheme),
         const SizedBox(height: 24),
         if (patient.insuranceInfo != null)
-          _buildSection(
-            context,
-            'VERSICHERUNG',
-            [
-              _buildInsuranceTile(
-                context,
-                patient.insuranceInfo!,
-                colorScheme,
-              ),
-            ],
-            colorScheme: colorScheme,
-          ),
+          _buildSection(context, 'VERSICHERUNG', [
+            _buildInsuranceTile(context, patient.insuranceInfo!, colorScheme),
+          ], colorScheme: colorScheme),
       ],
     );
   }
@@ -383,8 +354,8 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
           Text(
             'Erstellen Sie Ihre erste Sitzungsnotiz',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                ),
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
           ),
         ],
       ),
