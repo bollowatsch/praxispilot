@@ -1,5 +1,6 @@
 import 'package:PraxisPilot/features/patients/domain/entities/patient.dart';
 import 'package:PraxisPilot/features/patients/presentation/providers/patient_state_provider.dart';
+import 'package:PraxisPilot/features/patients/presentation/widgets/patient_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,11 +46,16 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // TODO: Open add patient dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Patient form dialog - coming soon')),
+        onPressed: () async {
+          final result = await showDialog<bool>(
+            context: context,
+            builder: (context) => const PatientFormDialog(),
           );
+
+          // Refresh list if patient was created
+          if (result == true && mounted) {
+            ref.read(patientStateProvider.notifier).loadPatients();
+          }
         },
         icon: const Icon(Icons.person_add),
         label: const Text('Neuer Patient'),
@@ -64,7 +70,7 @@ class _PatientsPageState extends ConsumerState<PatientsPage> {
         color: colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.1),
+            color: colorScheme.shadow.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
