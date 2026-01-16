@@ -168,23 +168,6 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: colorScheme.surface, width: 2),
-                    ),
-                    child: Icon(
-                      Icons.edit,
-                      size: 16,
-                      color: colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -198,7 +181,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
             Text(
               '${patient.age} Jahre • Geb. ${DateFormat('d. MMMM yyyy', 'de').format(patient.dateOfBirth)}',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 12),
@@ -207,7 +190,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
               children: [
                 Chip(
                   label: Text(
-                    patient.isActive ? 'AKTIV' : 'ARCHIVIERT',
+                    patient.isActive ? 'AKTIV' : 'INAKTIV',
                     style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -216,8 +199,8 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                   ),
                   backgroundColor:
                       patient.isActive
-                          ? colorScheme.primary.withOpacity(0.1)
-                          : colorScheme.error.withOpacity(0.1),
+                          ? colorScheme.primary.withValues(alpha: 0.1)
+                          : colorScheme.error.withValues(alpha: 0.1),
                   labelStyle: TextStyle(
                     color:
                         patient.isActive
@@ -236,7 +219,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                         letterSpacing: 1,
                       ),
                     ),
-                    backgroundColor: Colors.blue.withOpacity(0.1),
+                    backgroundColor: Colors.blue.withValues(alpha: 0.1),
                     labelStyle: const TextStyle(color: Colors.blue),
                   ),
               ],
@@ -256,7 +239,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
           indicatorColor: colorScheme.primary,
           indicatorWeight: 3,
           labelColor: colorScheme.primary,
-          unselectedLabelColor: colorScheme.onSurface.withOpacity(0.5),
+          unselectedLabelColor: colorScheme.onSurface.withValues(alpha: 0.5),
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
@@ -354,7 +337,9 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
           Text(
             'Erstellen Sie Ihre erste Sitzungsnotiz',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -383,7 +368,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
-                  color: colorScheme.onSurface.withOpacity(0.4),
+                  color: colorScheme.onSurface.withValues(alpha: 0.4),
                 ),
               ),
               if (onEdit != null)
@@ -413,7 +398,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                 if (i < children.length - 1)
                   Divider(
                     height: 1,
-                    color: colorScheme.outline.withOpacity(0.1),
+                    color: colorScheme.outline.withValues(alpha: 0.1),
                   ),
               ],
             ],
@@ -444,7 +429,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
             child: Icon(
               icon,
               size: 20,
-              color: colorScheme.onSurface.withOpacity(0.4),
+              color: colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           ),
           const SizedBox(width: 16),
@@ -458,7 +443,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.5,
-                    color: colorScheme.onSurface.withOpacity(0.4),
+                    color: colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -490,7 +475,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: Colors.orange.withOpacity(0.1),
+          color: Colors.orange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: const Icon(
@@ -507,12 +492,12 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
         '$relationship • $phone',
         style: TextStyle(
           fontSize: 12,
-          color: colorScheme.onSurface.withOpacity(0.6),
+          color: colorScheme.onSurface.withValues(alpha: 0.6),
         ),
       ),
       trailing: Icon(
         Icons.chevron_right,
-        color: colorScheme.onSurface.withOpacity(0.3),
+        color: colorScheme.onSurface.withValues(alpha: 0.3),
       ),
     );
   }
@@ -539,7 +524,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
-                      color: colorScheme.onSurface.withOpacity(0.4),
+                      color: colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -555,7 +540,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: const Text(

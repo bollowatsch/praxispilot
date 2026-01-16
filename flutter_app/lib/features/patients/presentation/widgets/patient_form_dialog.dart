@@ -218,7 +218,7 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
                   color:
                       _dateOfBirth != null
                           ? colorScheme.onSurface
-                          : colorScheme.onSurface.withOpacity(0.5),
+                          : colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ),
@@ -237,11 +237,13 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
           label: 'E-Mail',
           child: TextFormField(
             controller: _emailController,
-            decoration: _inputDecoration(colorScheme, 'email@beispiel.de')
-                .copyWith(
+            decoration: _inputDecoration(
+              colorScheme,
+              'email@beispiel.de',
+            ).copyWith(
               prefixIcon: Icon(
                 Icons.mail,
-                color: colorScheme.onSurface.withOpacity(0.4),
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
               ),
             ),
             keyboardType: TextInputType.emailAddress,
@@ -261,11 +263,13 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
           label: 'Telefonnummer',
           child: TextFormField(
             controller: _phoneController,
-            decoration: _inputDecoration(colorScheme, '+49 123 456789')
-                .copyWith(
+            decoration: _inputDecoration(
+              colorScheme,
+              '+49 123 456789',
+            ).copyWith(
               prefixIcon: Icon(
                 Icons.call,
-                color: colorScheme.onSurface.withOpacity(0.4),
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
               ),
             ),
             keyboardType: TextInputType.phone,
@@ -326,8 +330,10 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
                 child: _buildInsuranceTypeButton(
                   label: 'Gesetzlich',
                   isSelected: _insuranceType == InsuranceType.statutory,
-                  onTap: () =>
-                      setState(() => _insuranceType = InsuranceType.statutory),
+                  onTap:
+                      () => setState(
+                        () => _insuranceType = InsuranceType.statutory,
+                      ),
                   colorScheme: colorScheme,
                 ),
               ),
@@ -335,8 +341,10 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
                 child: _buildInsuranceTypeButton(
                   label: 'Privat',
                   isSelected: _insuranceType == InsuranceType.private,
-                  onTap: () =>
-                      setState(() => _insuranceType = InsuranceType.private),
+                  onTap:
+                      () => setState(
+                        () => _insuranceType = InsuranceType.private,
+                      ),
                   colorScheme: colorScheme,
                 ),
               ),
@@ -416,7 +424,9 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.8),
             ),
           ),
         ),
@@ -443,7 +453,7 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
               isSelected
                   ? [
                     BoxShadow(
-                      color: colorScheme.shadow.withOpacity(0.1),
+                      color: colorScheme.shadow.withValues(alpha: 0.1),
                       blurRadius: 2,
                       offset: const Offset(0, 1),
                     ),
@@ -459,7 +469,7 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
             color:
                 isSelected
                     ? colorScheme.onSurface
-                    : colorScheme.onSurface.withOpacity(0.5),
+                    : colorScheme.onSurface.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -478,16 +488,15 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         decoration: BoxDecoration(
-          color: colorScheme.surface.withOpacity(0.95),
-          border: Border(
-            top: BorderSide(color: colorScheme.outlineVariant),
-          ),
+          color: colorScheme.surface.withValues(alpha: 0.95),
+          border: Border(top: BorderSide(color: colorScheme.outlineVariant)),
         ),
         child: Row(
           children: [
             Expanded(
               child: OutlinedButton(
-                onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
+                onPressed:
+                    _isLoading ? null : () => Navigator.of(context).pop(),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   side: BorderSide(color: colorScheme.outline),
@@ -558,10 +567,7 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: colorScheme.error),
       ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     );
   }
 
@@ -612,12 +618,14 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
     setState(() => _isLoading = true);
 
     // Combine insurance info
-    final insuranceInfo = _insuranceNameController.text.trim().isEmpty &&
-            _insuranceNumberController.text.trim().isEmpty
-        ? null
-        : '${_insuranceType == InsuranceType.statutory ? 'GKV' : 'PKV'}: '
-            '${_insuranceNameController.text.trim()} '
-            '(${_insuranceNumberController.text.trim()})'.trim();
+    final insuranceInfo =
+        _insuranceNameController.text.trim().isEmpty &&
+                _insuranceNumberController.text.trim().isEmpty
+            ? null
+            : '${_insuranceType == InsuranceType.statutory ? 'GKV' : 'PKV'}: '
+                    '${_insuranceNameController.text.trim()} '
+                    '(${_insuranceNumberController.text.trim()})'
+                .trim();
 
     final bool success;
 
@@ -655,7 +663,9 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
                 : _emergencyContactRelationshipController.text.trim(),
       );
 
-      success = await ref.read(patientStateProvider.notifier).updatePatient(params);
+      success = await ref
+          .read(patientStateProvider.notifier)
+          .updatePatient(params);
     } else {
       // Create new patient
       final params = CreatePatientParams(
@@ -689,7 +699,9 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
                 : _emergencyContactRelationshipController.text.trim(),
       );
 
-      success = await ref.read(patientStateProvider.notifier).createPatient(params);
+      success = await ref
+          .read(patientStateProvider.notifier)
+          .createPatient(params);
     }
 
     if (!mounted) return;
