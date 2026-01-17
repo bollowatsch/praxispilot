@@ -6,6 +6,9 @@ class AuthFormField extends StatelessWidget {
   final TextEditingController controller;
   final Icon? icon;
   final String? Function(String?)? validator;
+  final TextInputAction? textInputAction;
+  final VoidCallback? onFieldSubmitted;
+
   const AuthFormField({
     super.key,
     required this.hintText,
@@ -13,6 +16,8 @@ class AuthFormField extends StatelessWidget {
     this.isPassword = false,
     this.icon,
     this.validator,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -22,6 +27,8 @@ class AuthFormField extends StatelessWidget {
       decoration: InputDecoration(labelText: hintText, prefixIcon: icon),
       controller: controller,
       validator: validator,
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted != null ? (_) => onFieldSubmitted!() : null,
     );
   }
 }

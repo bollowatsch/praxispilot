@@ -102,6 +102,8 @@ class _SignupPageState extends ConsumerState<SignUpPage> {
                             _passwordController.text != value
                                 ? context.l10n.signup_noMatch
                                 : null,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: _handleSignup,
                   ),
                   SizedBox(height: 30),
                   PrimaryButton(

@@ -82,6 +82,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     icon: Icon(Icons.lock_outline),
                     isPassword: true,
                     controller: _passwordController,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: _handleLogin,
                   ),
                   SizedBox(height: 30),
                   PrimaryButton(
