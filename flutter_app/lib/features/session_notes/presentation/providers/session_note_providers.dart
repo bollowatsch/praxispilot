@@ -6,6 +6,7 @@ import 'package:PraxisPilot/features/session_notes/domain/usecases/create_sessio
 import 'package:PraxisPilot/features/session_notes/domain/usecases/delete_session_note.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/finalize_session_note.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/get_session_note_by_id.dart';
+import 'package:PraxisPilot/features/session_notes/domain/usecases/get_session_note_history.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/get_session_notes_for_patient.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/unlock_session_note.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/update_session_note.dart';
@@ -58,4 +59,9 @@ FinalizeSessionNote finalizeSessionNote(Ref ref) {
 @riverpod
 UnlockSessionNote unlockSessionNote(Ref ref) {
   return UnlockSessionNote(ref.watch(sessionNoteRepositoryProvider));
+}
+
+@riverpod
+GetSessionNoteHistory getSessionNoteHistory(Ref ref) {
+  return GetSessionNoteHistory(ref.watch(sessionNoteRepositoryProvider));
 }

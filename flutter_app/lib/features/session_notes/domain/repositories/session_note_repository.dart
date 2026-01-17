@@ -1,5 +1,6 @@
 import 'package:PraxisPilot/core/errors/failures.dart';
 import 'package:PraxisPilot/features/session_notes/domain/entities/session_note.dart';
+import 'package:PraxisPilot/features/session_notes/domain/entities/session_note_history.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -45,4 +46,9 @@ abstract class SessionNoteRepository {
     required String noteId,
     required String unlockReason,
   });
+
+  /// Get version history for a specific session note
+  Future<Either<Failure, List<SessionNoteHistory>>> getSessionNoteHistory(
+    String noteId,
+  );
 }
