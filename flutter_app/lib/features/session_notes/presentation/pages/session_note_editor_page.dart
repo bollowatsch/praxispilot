@@ -1,7 +1,10 @@
 import 'package:PraxisPilot/core/l10n/l10n_extension.dart';
+import 'package:PraxisPilot/core/usecases/usecase.dart';
 import 'package:PraxisPilot/features/session_notes/domain/entities/session_note.dart';
+import 'package:PraxisPilot/features/session_notes/domain/entities/session_note_template.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/create_session_note.dart';
 import 'package:PraxisPilot/features/session_notes/domain/usecases/update_session_note.dart';
+import 'package:PraxisPilot/features/session_notes/presentation/providers/session_note_providers.dart';
 import 'package:PraxisPilot/features/session_notes/presentation/providers/session_note_state_provider.dart';
 import 'package:PraxisPilot/features/session_notes/presentation/widgets/unlock_note_dialog.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +40,8 @@ class _SessionNoteEditorPageState extends ConsumerState<SessionNoteEditorPage> {
   bool _isLoading = true;
   bool _hasUnsavedChanges = false;
   SessionNote? _currentNote;
+  List<SessionNoteTemplate> _templates = [];
+  SessionNoteTemplate? _selectedTemplate;
 
   @override
   void initState() {
@@ -46,6 +51,11 @@ class _SessionNoteEditorPageState extends ConsumerState<SessionNoteEditorPage> {
   }
 
   Future<void> _loadNote() async {
+    // Load templates for new notes
+    if (widget.noteId == null) {
+      await _loadTemplates();
+    }
+
     if (widget.noteId != null) {
       await ref
           .read(sessionNoteStateProvider.notifier)
@@ -67,6 +77,38 @@ class _SessionNoteEditorPageState extends ConsumerState<SessionNoteEditorPage> {
     } else {
       setState(() => _isLoading = false);
     }
+  }
+
+  Future<void> _loadTemplates() async {
+    final result = await ref.read(getTemplatesProvider).call(NoParams());
+    result.fold(
+      (failure) {
+        // If templates fail to load, continue without them
+        debugPrint('Failed to load templates: ${failure.message}');
+      },
+      (templates) {
+        if (mounted) {
+          setState(() {
+            _templates = templates;
+            // Auto-select the blank template if available
+            _selectedTemplate = templates.firstWhere(
+              (t) => t.name == 'Standard-Protokoll',
+              orElse: () => templates.first,
+            );
+          });
+        }
+      },
+    );
+  }
+
+  void _applyTemplate(SessionNoteTemplate? template) {
+    if (template == null) return;
+
+    setState(() {
+      _selectedTemplate = template;
+      _contentController.text = template.contentTemplate;
+      _hasUnsavedChanges = true;
+    });
   }
 
   @override
@@ -415,6 +457,25 @@ class _SessionNoteEditorPageState extends ConsumerState<SessionNoteEditorPage> {
                           ),
                         ],
                       ),
+                      // Template selector (only for new notes)
+                      if (!_isEditing && _templates.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        DropdownButtonFormField<SessionNoteTemplate>(
+                          value: _selectedTemplate,
+                          decoration: InputDecoration(
+                            labelText: 'Vorlage',
+                            border: const OutlineInputBorder(),
+                            prefixIcon: const Icon(Icons.description_outlined),
+                          ),
+                          items: _templates.map((template) {
+                            return DropdownMenuItem(
+                              value: template,
+                              child: Text(template.name),
+                            );
+                          }).toList(),
+                          onChanged: _canEdit ? _applyTemplate : null,
+                        ),
+                      ],
                     ],
                   ),
                 ),

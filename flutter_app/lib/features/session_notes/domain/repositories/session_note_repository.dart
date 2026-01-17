@@ -1,6 +1,7 @@
 import 'package:PraxisPilot/core/errors/failures.dart';
 import 'package:PraxisPilot/features/session_notes/domain/entities/session_note.dart';
 import 'package:PraxisPilot/features/session_notes/domain/entities/session_note_history.dart';
+import 'package:PraxisPilot/features/session_notes/domain/entities/session_note_template.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -51,4 +52,7 @@ abstract class SessionNoteRepository {
   Future<Either<Failure, List<SessionNoteHistory>>> getSessionNoteHistory(
     String noteId,
   );
+
+  /// Get all available templates (system + user templates)
+  Future<Either<Failure, List<SessionNoteTemplate>>> getTemplates();
 }
