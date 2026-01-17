@@ -289,6 +289,13 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
           child: TextFormField(
             controller: _emergencyContactNameController,
             decoration: _inputDecoration(colorScheme, 'Name'),
+            validator: (value) {
+              if ((value == null || value.trim().isEmpty) &&
+                  (_emergencyContactPhoneController.text.trim().isNotEmpty)) {
+                return 'Bitte geben Sie einen Namen für den Notfallkontakt an!';
+              }
+              return null;
+            },
           ),
         ),
         const SizedBox(height: 16),
@@ -306,6 +313,13 @@ class _PatientFormDialogState extends ConsumerState<PatientFormDialog> {
             controller: _emergencyContactPhoneController,
             decoration: _inputDecoration(colorScheme, '+49...'),
             keyboardType: TextInputType.phone,
+            validator: (value) {
+              if ((value == null || value.trim().isEmpty) &&
+                  (_emergencyContactNameController.text.trim().isNotEmpty)) {
+                return 'Bitte geben Sie eine Telefonnummer für den Notfallkontakt an!';
+              }
+              return null;
+            },
           ),
         ),
       ],
