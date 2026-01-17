@@ -34,6 +34,8 @@ class PatientState {
     String? searchQuery,
     bool clearSelectedPatient = false,
     bool clearError = false,
+    bool clearStatusFilter = false,
+    bool clearSearchQuery = false,
   }) {
     return PatientState(
       patients: patients ?? this.patients,
@@ -41,8 +43,8 @@ class PatientState {
           clearSelectedPatient ? null : (selectedPatient ?? this.selectedPatient),
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      statusFilter: statusFilter ?? this.statusFilter,
-      searchQuery: searchQuery ?? this.searchQuery,
+      statusFilter: clearStatusFilter ? null : (statusFilter ?? this.statusFilter),
+      searchQuery: clearSearchQuery ? null : (searchQuery ?? this.searchQuery),
     );
   }
 }
@@ -52,8 +54,8 @@ class PatientState {
 class PatientStateNotifier extends _$PatientStateNotifier {
   @override
   PatientState build() {
-    // Load patients on initialization
-    Future.microtask(() => loadPatients());
+    // Load patients on initialization with no filters
+    Future.microtask(() => loadPatients(status: null, searchQuery: null));
     return const PatientState();
   }
 
@@ -67,11 +69,13 @@ class PatientStateNotifier extends _$PatientStateNotifier {
       clearError: true,
       statusFilter: status,
       searchQuery: searchQuery,
+      clearStatusFilter: status == null,
+      clearSearchQuery: searchQuery == null || searchQuery.isEmpty,
     );
 
     final params = GetPatientsParams(
-      status: status ?? state.statusFilter,
-      searchQuery: searchQuery ?? state.searchQuery,
+      status: status,
+      searchQuery: searchQuery,
     );
 
     final result = await ref.read(getPatientsProvider).call(params);
@@ -116,8 +120,11 @@ class PatientStateNotifier extends _$PatientStateNotifier {
         return false;
       },
       (patient) {
-        // Reload patients after creation
-        loadPatients();
+        // Reload patients after creation, preserving current filters
+        loadPatients(
+          status: state.statusFilter,
+          searchQuery: state.searchQuery,
+        );
         return true;
       },
     );
@@ -138,8 +145,11 @@ class PatientStateNotifier extends _$PatientStateNotifier {
         return false;
       },
       (patient) {
-        // Reload patients after update
-        loadPatients();
+        // Reload patients after update, preserving current filters
+        loadPatients(
+          status: state.statusFilter,
+          searchQuery: state.searchQuery,
+        );
         return true;
       },
     );
@@ -147,12 +157,18 @@ class PatientStateNotifier extends _$PatientStateNotifier {
 
   /// Set status filter
   void setStatusFilter(PatientStatus? status) {
-    loadPatients(status: status);
+    loadPatients(
+      status: status,
+      searchQuery: state.searchQuery,
+    );
   }
 
   /// Set search query
   void setSearchQuery(String? query) {
-    loadPatients(searchQuery: query);
+    loadPatients(
+      status: state.statusFilter,
+      searchQuery: query,
+    );
   }
 
   /// Clear error message
