@@ -1,4 +1,5 @@
 import 'package:PraxisPilot/config/environment.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SupabaseConfig {
@@ -45,7 +46,7 @@ class SupabaseConfig {
   }
 
   static void printConfiguration() {
-    print('''
+    debugPrint('''
 ╔════════════════════════════════════════════════════╗
 ║           SUPABASE CONFIGURATION                   ║
 ╠════════════════════════════════════════════════════╣

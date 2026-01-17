@@ -53,10 +53,11 @@ class _SignupPageState extends ConsumerState<SignUpPage> {
           password: _passwordController.text,
         );
 
-    if (success && mounted)
-      print('SignUp Successful');
-    else
-      print('unsuccessful signup!');
+    if (success && mounted) {
+      debugPrint('SignUp Successful');
+    } else {
+      debugPrint('unsuccessful signup!');
+    }
   }
 
   @override

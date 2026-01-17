@@ -45,11 +45,13 @@ dependencies:
   flutter_dotenv: ^6.0.0
   fpdart: ^1.1.1
   go_router: ^16.2.5
+  flutter_quill: ^11.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
   riverpod_generator: ^3.0.3
   riverpod_lint: ^3.0.3
+  build_runner: ^2.4.13
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

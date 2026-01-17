@@ -50,7 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (success && mounted) {
       context.goNamed('dashboard');
     } else {
-      print('unsuccessful login: success = ${success}');
+      debugPrint('unsuccessful login: success = $success');
     }
   }
 

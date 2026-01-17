@@ -1,5 +1,6 @@
 import 'package:PraxisPilot/features/patients/domain/entities/patient.dart';
 import 'package:PraxisPilot/features/patients/presentation/providers/patient_state_provider.dart';
+import 'package:PraxisPilot/features/session_notes/presentation/widgets/session_notes_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -78,9 +79,9 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO: Create new session note
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Neue Sitzungsnotiz - coming soon')),
+          context.pushNamed(
+            'newSessionNote',
+            pathParameters: {'patientId': widget.patientId},
           );
         },
         icon: Icon(Icons.edit_note),
@@ -318,32 +319,7 @@ class _PatientDetailPageState extends ConsumerState<PatientDetailPage>
   }
 
   Widget _buildSessionNotesTab(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.note_outlined,
-            size: 64,
-            color: Theme.of(context).colorScheme.outline,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Noch keine Sitzungsprotokolle',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Erstellen Sie Ihre erste Sitzungsnotiz',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
-            ),
-          ),
-        ],
-      ),
-    );
+    return SessionNotesListWidget(patientId: widget.patientId);
   }
 
   Widget _buildSection(

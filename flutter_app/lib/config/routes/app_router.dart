@@ -9,6 +9,7 @@ import 'package:PraxisPilot/features/patients/domain/entities/patient.dart';
 import 'package:PraxisPilot/features/patients/presentation/pages/patient_detail_page.dart';
 import 'package:PraxisPilot/features/patients/presentation/pages/patients_page.dart';
 import 'package:PraxisPilot/features/patients/presentation/widgets/patient_form_dialog.dart';
+import 'package:PraxisPilot/features/session_notes/presentation/pages/session_note_editor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -75,6 +76,27 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final patient = state.extra as Patient;
         return PatientFormDialog(patient: patient);
+      },
+    ),
+    // session notes
+    GoRoute(
+      path: '/patients/:patientId/session-notes/new',
+      name: 'newSessionNote',
+      builder: (context, state) {
+        final patientId = state.pathParameters['patientId']!;
+        return SessionNoteEditorPage(patientId: patientId);
+      },
+    ),
+    GoRoute(
+      path: '/patients/:patientId/session-notes/:noteId',
+      name: 'editSessionNote',
+      builder: (context, state) {
+        final patientId = state.pathParameters['patientId']!;
+        final noteId = state.pathParameters['noteId']!;
+        return SessionNoteEditorPage(
+          patientId: patientId,
+          noteId: noteId,
+        );
       },
     ),
   ],

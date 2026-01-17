@@ -19,7 +19,7 @@ class _OnboardingPreferencesPageState
   final _formKey = GlobalKey<FormState>();
 
   prefs.ThemeMode _themeMode = prefs.ThemeMode.system;
-  String _timezone = 'Europe/Vienna';
+  final _timezone = 'Europe/Vienna';
   prefs.AppLanguage _language = prefs.AppLanguage.de;
   int _sessionDuration = 50; // in minutes: 45, 50, or 60
   bool _isLoading = false;
